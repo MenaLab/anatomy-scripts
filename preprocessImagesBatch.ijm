@@ -6,7 +6,7 @@
  * 
  * 3/14/21: This macro currently checks all the subfolders of the input folder, it might 
  * be a good idea to put an end to that some time
- * 
+ * 3/25/21: Now it asks if you want to proceed with subfolders
  */
 
 
