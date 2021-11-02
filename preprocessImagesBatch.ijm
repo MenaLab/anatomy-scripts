@@ -1,4 +1,4 @@
-/* Macro to split and save multi-channel data in files, 
+"E:/Lab Data/GABA Antero Synapto + Fast Blue/GABA Antero Synapto + Fast Blue/processed/431D/431.1.2.1_Stack.tif"/* Macro to split and save multi-channel data in files, 
  * using Channel Name (e.g. "cy5") appended to each channel's file name
  * Input folder: directory in which all files you want to split and save are located
  * Output folder: directory at which you want split files to be saved (as tiffs)
@@ -6,7 +6,8 @@
  * 
  * 3/14/21: This macro currently checks all the subfolders of the input folder, it might 
  * be a good idea to put an end to that some time
- * 3/25/21: Now it asks if you want to proceed with subfolders
+ * 4/1/21: It's now asking if you want to go on processing the subfolders and if not, it stops there
+ * 4/6/21: Added scale bar (1000um) and background subtraction
  */
 
 
@@ -63,9 +64,9 @@ function processFile(input, output, file) {
 		if (sizeZ > 1) {
 			run("Z Project...", "projection=[Sum Slices]");
 		}
-		// Adjust brightness and contrast
-//		run("Color Balance...");
-//		run("Enhance Contrast", "saturated=0.10");
+		run("Color Balance...");
+		run("Enhance Contrast", "saturated=0.10");
+
 
 		// Assign colors to channels from image metadata
 		if (indexOf(channelName, "488") >= 0) {
@@ -93,7 +94,14 @@ function processFile(input, output, file) {
 		run(channel);
 
 		// convert image to RGB Color
-		run("RGB Color"); 
+		run("RGB Color");
+
+		// subtract background
+//		run("Subtract Background...", "rolling=30 separate sliding stack");
+		
+		// add scale bar
+		// TO DO: write it so that it adds appropriate scale bars (e.g. <500um for 20x images vs 1000um for 10x etc)
+		run("Scale Bar...", "width=1000 height=32 font=112 color=White background=None location=[Lower Right] bold label");
 		
 //		if isEmpty(channelName)
 		// save each channel separately as tiff
